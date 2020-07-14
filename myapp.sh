@@ -1,6 +1,5 @@
 
-
-__myapp () {
+myapp () {
 	local foo bar err
 
 	var foo : myapp_foo y
@@ -11,7 +10,7 @@ __myapp () {
 	send 'ok inner bufferx' 'zooz\n'
 }
 
-__myapp_foo () {
+myapp_foo () {
 	local foo bar hello
 
 	send 'ok inner buffer2\n'
@@ -20,18 +19,15 @@ __myapp_foo () {
 	var bar = 'ok buffer append bar\n'
 	var bar = '>'${#IFS}'ok buffer append bar2\n'
 
-	var hello : myapp_hello hi
-
-
+	var hello : myapp_hello hello
 
 	send $foo
 	send $hello
 	send $bar
 }
 
-__myapp_hello () {
+myapp_hello () {
 	local foo bar
-
 
 	if ! test $_buffer_level -lt 5
 	then 
