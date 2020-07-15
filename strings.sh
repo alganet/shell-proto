@@ -36,3 +36,26 @@ string_position_bytes () {
 
 	send "${#piece}"
 }
+
+string_sub () {
+	local string=$1      \
+		  start_count=$2 \
+		  end_count=$3   \
+		  sub_string=
+
+	while test $start_count -gt 0
+	do string="${string#?}" start_count=$((start_count - 1))
+	done
+
+	while test $end_count -gt 0
+	do
+		tail="${string#?}"
+		first_char="${string%${tail}}"
+		sub_string="${sub_string}${first_char}"
+		string=$tail
+		end_count=$((end_count - 1))
+	done
+
+	send $sub_string
+}
+

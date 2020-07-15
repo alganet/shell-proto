@@ -144,7 +144,8 @@ _source_file () {
 
 _run_tests () {
 	# TODO remove this pipe
-	_funcs | while read -r REPLY || test -n "$REPLY"
+	_funcs |
+	while read -r REPLY || test -n "$REPLY"
 	do
 		_run_single_test "$REPLY"
 	done

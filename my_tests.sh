@@ -139,6 +139,8 @@ test_string_position_bytes_beginning () {
 	test 0 = $world_position
 }
 
+# strpos
+# strrpos
 test_string_position_bytes_no_contains () {
 	local haystack needle world_position
 
@@ -147,4 +149,20 @@ test_string_position_bytes_no_contains () {
 
 	! var world_position : string_position_bytes $haystack $needle
 }
+
+#substr
+test_string_sub_happy_path () {
+	local haystack sub_string
+
+	var haystack = "Hello World"
+
+	var sub_string : string_sub $haystack 2 5
+
+	# TODO REMOVE QUOTES
+	test "llo W" = "$sub_string"
+}
+
+
+#substr -1
+# TODO test_string_sub_reverse
 
