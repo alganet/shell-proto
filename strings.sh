@@ -17,7 +17,7 @@ string_ends_with () {
 string_contains () {
 	local haystack=$1 needle=$2
 
-	test "$haystack" != "${haystack#*"$needle"*}"
+	test "$haystack" != "${haystack#*$needle*}"
 }
 
 string_length_bytes () {

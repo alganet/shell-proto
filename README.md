@@ -26,3 +26,11 @@ my_function () {
 }
 ```
 
+Creating Tests
+--------------
+
+```sh
+test_my_function () {
+	assert true = true
+}
+```

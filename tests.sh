@@ -1,3 +1,20 @@
+echo ======= ALL NEW TESTS
+{
+	{ results="$(printf %s "$(dash ./tester.sh)")" ; echo "DASH $(echo "$results" | wc -l)	${results}"; }    # This is one of our main targets (dash é basicão)
+	{ results="$(printf %s "$(ksh93 ./tester.sh)")" ; echo "KSH $(echo "$results" | wc -l) 	${results}"; }   
+	{ results="$(printf %s "$(ksh ./tester.sh)")" ; echo "KSH2 $(echo "$results" | wc -l) 	${results}"; }     # This is one of our main targets (new ksh2020) <- https://github.com/att/ast/tree/2020.0.0
+	{ results="$(printf %s "$(oksh ./tester.sh)")" ; echo "OKSH $(echo "$results" | wc -l)	${results}"; }
+	{ results="$(printf %s "$(busybox sh ./tester.sh)")" ; echo "BBOX $(echo "$results" | wc -l)	${results}"; } # This is one of our main targets (android stuff)
+	{ results="$(printf %s "$(mksh ./tester.sh)")" ; echo "MKSH $(echo "$results" | wc -l)	${results}"; }
+	#{ results="$(printf %s "$(posh ./tester.sh)")" ; echo "POSH $(echo "$results" | wc -l)	${results}"; }
+	{ results="$(printf %s "$(bash ./tester.sh)")" ; echo "BASH $(echo "$results" | wc -l)	${results}"; } # This is one of our main targets (it's damn popular)
+	{ results="$(printf %s "$(yash ./tester.sh)")" ; echo "YASH $(echo "$results" | wc -l)	${results}"; }
+	{ results="$(printf %s "$(zsh ./tester.sh)")" ; echo "ZSH $(echo "$results" | wc -l) 	${results}"; } # This is one of our main targets (it's popular, osx default)
+}
+
+
+exit
+
 src="$(cat internal/compat.sh)
 _compat
 "
@@ -6,6 +23,8 @@ echo "$src
 _source_file ./myapp.sh
 myapp
 " > bench_compiled
+
+echo
 
 echo ======= ALL OUTPUT TESTS
 {

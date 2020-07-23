@@ -9,7 +9,12 @@ _compat () {
 	
 	_declare_internal var
 	_declare_internal send
-	_declare_internal funcs
+	_declare_internal assert
+	_declare_internal use
+}
+
+_use () {
+	:
 }
 
 _compat_detect_builtins () {
@@ -18,6 +23,11 @@ _compat_detect_builtins () {
 	PATH=
 
 	LC_ALL=C
+	
+	if command -v setopt
+	then
+		setopt SH_WORD_SPLIT
+	fi
 
 	if ! command -v command
 	then 
@@ -39,6 +49,10 @@ _compat_detect_builtins () {
 	if  command -v function
 	then _declare_external () { _declare_body "function $1 { ${2:-__$1}" ;}
 	fi
+}
+
+_assert () {
+	test "${1:-}" "${2:-}" "${3:-}"
 }
 
 _declare_body () {
@@ -77,6 +91,7 @@ _buffer_start () {
 
 _buffer () {
 	eval "IFS=' ' _buffer$_buffer_level=\"\${_buffer$_buffer_level:-}\$*\""
+	IFS="$_ifs"
 }
 
 _buffer_var () {
@@ -109,23 +124,17 @@ _var () {
 
 # =====
 
-_funcs () {
-	IFS='	'
-	set -- ${_funcs:-}
-	IFS="$_ifs"
-	while test $# -gt 0
-	do
-		send "$1\n"
-		shift
-	done
-}
-
 _source_file () {
 	test -f "${1}"
 
 	REPLY=''
 	while read -r REPLY || test -n "${REPLY}"
 	do
+		if test "${REPLY}" = "use ${REPLY#use }"
+		then
+			:
+		fi
+
 		if test "${REPLY}" = "${REPLY%' () {'} () {"
 		then
 			set -- "$1" "${2:-}
@@ -143,21 +152,21 @@ _source_file () {
 }
 
 _run_tests () {
-	# TODO remove this pipe
-	_funcs |
-	while read -r REPLY || test -n "$REPLY"
+	IFS='	'
+	set -- ${_funcs:-}
+	IFS="$_ifs"
+	while test $# -gt 0
 	do
-		_run_single_test "$REPLY"
+		_run_single_test "$1"
+		shift
 	done
 }
 
 _run_single_test () {
-	if test "$REPLY" = "test_${REPLY#test_}"
+	if test "$1" = "test_${1#test_}"
 	then
-		(
-			$REPLY &&
-				_send "ok	${REPLY}\n" ||
-				_send "not ok	${REPLY}\n"
-		)
+		$1 &&
+			_send "ok	${1}\n" ||
+			_send "not ok	${1}\n"
 	fi
 }
