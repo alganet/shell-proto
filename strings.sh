@@ -27,7 +27,26 @@ string_length_bytes () {
 string_position_bytes () {
 	local haystack=$1 needle=$2 piece=
 
-	var piece = "${haystack%"$needle"*}"
+	var piece = ${haystack%"$needle"*}
+
+	if test "$piece" = "$haystack"
+	then
+		return 1
+	fi
+
+	while test "$piece" != "$haystack"
+	do
+		haystack=$piece
+		var piece = ${haystack%"$needle"*}
+	done
+
+	send "${#piece}"
+}
+
+string_position_reverse_bytes () {
+	local haystack=$1 needle=$2 piece=
+
+	var piece = ${haystack%"$needle"*}
 
 	if test "$piece" = "$haystack"
 	then

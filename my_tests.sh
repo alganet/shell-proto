@@ -120,6 +120,41 @@ test_string_length_bytes () {
 	assert 5 = $hello_length
 }
 
+test_string_position_reverse_bytes () {
+	local haystack= needle= world_position=
+
+	var haystack = "Hello World"
+	var needle = "World"
+
+	var world_position : string_position_reverse_bytes $haystack $needle
+
+	assert 6 = "$world_position"
+}
+
+test_string_position_reverse_bytes_beginning () {
+	local haystack= needle= world_position=
+
+	var haystack = "Hello World"
+	var needle = "Hello"
+
+	var world_position : string_position_reverse_bytes $haystack $needle
+
+	assert 0 = $world_position
+}
+
+test_string_position_reverse_bytes_duplicate () {
+	local haystack= needle= world_position=
+
+	var haystack = "Hello World World"
+	var needle = "World"
+
+	var world_position : string_position_reverse_bytes $haystack $needle
+
+	assert 12 = "$world_position"
+}
+
+
+
 test_string_position_bytes () {
 	local haystack= needle= world_position=
 
@@ -142,8 +177,27 @@ test_string_position_bytes_beginning () {
 	assert 0 = $world_position
 }
 
-# strpos
-# strrpos
+test_string_position_bytes_duplicate () {
+	local haystack= needle= world_position=
+
+	var haystack = "Hello World World"
+	var needle = "World"
+
+	var world_position : string_position_bytes $haystack $needle
+
+	assert 6 = "$world_position"
+}
+
+
+test_string_position_reverse_bytes_no_contains () {
+	local haystack needle world_position
+
+	var haystack = "Hello World"
+	var needle = "Lorem"
+
+	! var world_position : string_position_reverse_bytes $haystack $needle
+}
+
 test_string_position_bytes_no_contains () {
 	local haystack needle world_position
 
