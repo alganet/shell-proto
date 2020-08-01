@@ -21,7 +21,7 @@ $ bash ./launcher.sh tests/all.sh _run_tests
 Running all tests in all shells (requires them installed and docker):
 
 ```sh
-$ bash ./compatmatrix.sh ./launcher.sh tests/all.sh _run_test
+$ bash ./compatmatrix.sh ./launcher.sh tests/all.sh _run_tests
 ```
 
 # Previous work
