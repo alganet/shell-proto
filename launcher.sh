@@ -2,6 +2,13 @@
 
 . internal/compat.sh
 _compat
-_source_file $1
-funcs
-${1%'.sh'}
+
+# remover subshell plz n pod
+eval "$(
+	_translate_file echo $1
+)"
+
+shift
+
+$@
+

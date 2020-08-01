@@ -13,10 +13,6 @@ _compat () {
 	_declare_internal use
 }
 
-_use () {
-	:
-}
-
 _compat_detect_builtins () {
 	set -euf
 
@@ -124,36 +120,60 @@ _var () {
 
 # =====
 
+_use () {
+	:
+}
+
 _source_file () {
-	test -f "${1}"
+	_translate_file eval "$1"
+}
 
-	REPLY=''
-	while read -r REPLY || test -n "${REPLY}"
+_translate_file () {
+	test -n "${2:-}"
+	test -f "${2}"
+
+	_target_function="$1"
+	_source_path="$2"
+	_source_line=''
+	_source_funcs="${_source_funcs:-}"
+	
+	while read -r _source_line || test -n "${_source_line}"
 	do
-		if test "${REPLY}" = "use ${REPLY#use }"
+		_maybe_token="${_source_line#use }"
+
+		if
+			test "${_source_line}" = "use ${_maybe_token}" &&
+			test "${_source_funcs}" = "${_source_funcs#*${_maybe_token}*}"
 		then
-			:
+			_source_funcs="${_source_funcs:-}	${_maybe_token}"
+			_translate_file $_target_function "./${_maybe_token}.sh"
 		fi
 
-		if test "${REPLY}" = "${REPLY%' () {'} () {"
+		_maybe_token="${_source_line%' () {'}"
+
+		if test "${_source_line}" = "${_maybe_token} () {"
 		then
-			set -- "$1" "${2:-}
-				_funcs=\"\${_funcs:-}	${REPLY%' () {'}\"
-				_declare_external ${REPLY%' () {'}
-				__${REPLY##'	'}"
+			_source_funcs="${_source_funcs:-}	${_maybe_token}"
+			_source_code="${_source_code:-}
+				_declare_external ${_maybe_token}
+				__${_source_line}"
 		else
-			set -- "$1" "${2:-}
-				${REPLY##'	'}"
+			_source_code="${_source_code:-}
+				${_source_line}"
 		fi
-	done < "${1}"
-	REPLY=''
+	done < "${_source_path}"
 
-	eval "${2:-:}"
+	_source_line=''
+
+	_source_code="${_source_code:-}
+		_source_funcs='${_source_funcs}'"
+
+	$_target_function "${_source_code:-}"
 }
 
 _run_tests () {
 	IFS='	'
-	set -- ${_funcs:-}
+	set -- ${_source_funcs:-}
 	IFS="$_ifs"
 	while test $# -gt 0
 	do

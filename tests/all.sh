@@ -1,4 +1,4 @@
-use strings
+use internal/strings
 
 intermediate_send () {
 	send "Foo"
@@ -153,8 +153,6 @@ test_string_position_reverse_bytes_duplicate () {
 	assert 12 = "$world_position"
 }
 
-
-
 test_string_position_bytes () {
 	local haystack= needle= world_position=
 
@@ -218,8 +216,3 @@ test_string_sub_happy_path () {
 	# TODO REMOVE QUOTES
 	assert "llo W" = "$sub_string"
 }
-
-
-#substr -1
-# TODO test_string_sub_reverse
-

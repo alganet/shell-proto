@@ -1,7 +1,0 @@
-cont=0
-while test $cont -lt 20; do cont=$((cont + 1));
-
-eval "$1"
-
-done
-
