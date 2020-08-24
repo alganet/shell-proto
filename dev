@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+. internal/compat.sh
+. internal/module.sh
+_compat
+_module eval $1
+
+$@
+

@@ -8,20 +8,20 @@ Getting started
 Running a core function:
 
 ```sh
-$ bash ./launcher.sh internal/strings.sh string_sub Hello 0 3
+$ bash dev string_sub Hello 0 3
 Hel$
 ```
 
 Running all tests in the curret shell:
 
-```sh
-$ bash ./launcher.sh tests/all.sh _run_tests
+```shn
+$ bash dev tap_suite spec_all
 ```
 
 Running all tests in all shells (requires them installed and docker):
 
 ```sh
-$ bash ./compatmatrix.sh ./launcher.sh tests/all.sh _run_tests
+$ bash ./compatmatrix.sh dev tap_suite spec_all
 ```
 
 # Previous work
