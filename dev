@@ -3,7 +3,7 @@
 . internal/compat.sh
 . internal/module.sh
 _compat
-_module eval $1
+_module $1
 
 $@
 

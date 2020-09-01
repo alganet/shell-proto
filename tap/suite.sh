@@ -1,5 +1,14 @@
 tap_suite () {
-	_module eval $1
+	while test $# -gt 0
+	do
+		tap_suite_file "$1"
+		shift
+	done	
+}
+
+
+tap_suite_file () {
+	_module_file "$1"
 	IFS='	'
 	set -- ${_source_funcs:-}
 	IFS="$_ifs"

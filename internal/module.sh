@@ -2,10 +2,15 @@
 
 _module () {
 	test -n "${1:-}"
-	test -n "${2:-}"
 
-	_target_function="$1"
-	_source_path="./${2%%_*}/${2#*_}.sh"
+	_source_path="./${1%%_*}/${1#*_}.sh"
+
+	_module_file "${_source_path}"
+}
+
+_module_file () {
+	test -n "${1:-}"
+	_source_path="${1}"
 	_source_line=''
 	_source_funcs="${_source_funcs:-}"
 
@@ -20,7 +25,7 @@ _module () {
 			test "${_source_funcs}" = "${_source_funcs#*${_maybe_dependency}*}"
 		then
 			_source_funcs="${_source_funcs:-}	${_maybe_dependency}"
-			_module $_target_function "${_maybe_dependency}"
+			_module "${_maybe_dependency}"
 			unset _maybe_dependency
 			continue
 		fi
@@ -46,5 +51,5 @@ _module () {
 	_source_code="${_source_code:-}
 		_source_funcs='${_source_funcs}'"
 
-	$_target_function "${_source_code:-}"
+	eval "${_source_code:-}"
 }

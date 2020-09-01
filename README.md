@@ -15,13 +15,13 @@ Hel$
 Running all tests in the curret shell:
 
 ```shn
-$ bash dev tap_suite spec_all
+$ bash dev tap_suite spec/all.sh
 ```
 
-Running all tests in all shells (requires them installed and docker):
+Running all tests in all shells (requires them installed):
 
 ```sh
-$ bash ./compatmatrix.sh dev tap_suite spec_all
+$ bash ./compatmatrix.sh dev tap_suite spec/all.sh
 ```
 
 # Previous work
